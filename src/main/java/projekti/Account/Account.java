@@ -1,6 +1,9 @@
 package projekti.Account;
 
+import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -9,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import projekti.Picture.Picture;
+import projekti.Skill.Skill;
 
 @Entity
 @Data
@@ -22,6 +26,7 @@ public class Account extends AbstractPersistable<Long> {
     
     @NotEmpty
     @Size(min = 4, max = 16)
+    @Column(unique = true)
     private String username;
     
     @NotEmpty
@@ -30,9 +35,13 @@ public class Account extends AbstractPersistable<Long> {
     
     @NotEmpty
     @Size(min = 4, max = 16)
+    @Column(unique = true)
     private String path;
     
     @OneToOne
     private Picture picture;
+    
+    @OneToMany
+    private List<Skill> skills;
     
 }

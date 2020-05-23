@@ -21,9 +21,9 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @AllArgsConstructor
 public class Picture extends AbstractPersistable<Long> {
     
-    //@Lob
-    //@Basic(fetch = FetchType.LAZY)
-    @Type(type = "org.hibernate.type.BinaryType")
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    //@Type(type = "org.hibernate.type.BinaryType")
     private byte[] content;
     
 }

@@ -1,4 +1,5 @@
 projekti\Picture\PictureRepository.class
+projekti\Skill\Skill.class
 projekti\Account\AccountController.class
 projekti\Account\AccountService.class
 projekti\MyApplication.class
@@ -6,5 +7,6 @@ projekti\Picture\Picture.class
 projekti\CustomUserDetailsService.class
 projekti\Account\AccountRepository.class
 projekti\Account\Account.class
+projekti\Skill\SkillRepository.class
 projekti\SecurityConfiguration.class
 projekti\DefaultController.class

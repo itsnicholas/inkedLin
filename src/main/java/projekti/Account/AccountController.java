@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import projekti.Picture.Picture;
 import projekti.Picture.PictureRepository;
+import projekti.Skill.Skill;
+import projekti.Skill.SkillRepository;
 
 @Controller
 public class AccountController {
@@ -35,6 +37,9 @@ public class AccountController {
     
     @Autowired
     PictureRepository pictureRepository;
+
+    @Autowired
+    SkillRepository skillRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -68,12 +73,9 @@ public class AccountController {
         model.addAttribute("path", path);
         model.addAttribute("picture", accountRepository.findByPath(path).getPicture());
         model.addAttribute("profileName", accountRepository.findByPath(path).getName());
+        model.addAttribute("skills", accountRepository.findByPath(path).getSkills());
         return "profile";
     }
-    
-    //                <div th:switch="${account.picture}">                  
-    //                <img th:case="*" th:src="@{/picture/{id}(id=${viewedAccount.picture.id})}" width="200" height="200"/>
-    //            </div>
     
     @GetMapping("/userlist")
     public String Users(Model model) {
