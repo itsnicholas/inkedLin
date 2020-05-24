@@ -5,15 +5,21 @@
  */
 package projekti.Picture;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import projekti.Account.Account;
 
 @Entity
 @Data
@@ -21,9 +27,9 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @AllArgsConstructor
 public class Picture extends AbstractPersistable<Long> {
     
-    //@Lob
+    //@Lob reactivate when not to do with Heroku
     //@Basic(fetch = FetchType.LAZY)
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] content;
-    
+
 }

@@ -42,7 +42,12 @@
         </div>
             <span th:text="${profileName}"></span>'s skills:
             <li th:each="skill : ${skills}">
-                <span th:text="${skill.skillName}">skill</span>
+                <span th:text="${skill.name}">skill</span>
+                <form th:action="@{/profile/{path}/skill/{id}/like(path=${path}, id=${skill.id})}" method="POST">
+                    <input type="hidden" id="skillLike" name="skillLike" value="skillLike"/>
+                    <button type="submit"><span th:text="${#lists.size(skill.likes)}">likes</span></button><span> likes</span>
+                    
+                </form>
             </li>
         <br>
             <a th:href="@{/userlist}">Contacts</a>
