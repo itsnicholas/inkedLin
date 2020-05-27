@@ -20,9 +20,8 @@ import projekti.Account.Account;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Skill extends AbstractPersistable<Long> {
+public class Skill extends AbstractPersistable<Long> implements Comparable<Skill> {
     
-    //Miten saa @Column(unique = true) toimimaan?
     @NotEmpty
     @Size(min = 1, max = 50)
     @Column
@@ -37,5 +36,15 @@ public class Skill extends AbstractPersistable<Long> {
             @JoinColumn(name="like_account_id", referencedColumnName="id"))
     private List<Account> likes = new ArrayList<>();
 
-    
+    @Override
+    public int compareTo(Skill skill) {
+        if (this.getLikes().size() < skill.getLikes().size()) {
+            return 1;
+        } else if (this.getLikes().size() > skill.getLikes().size()) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
 }
+//Miten saa @Column(unique = true) toimimaan?

@@ -8,6 +8,9 @@ package projekti.Skill;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +36,16 @@ public class SkillController {
     @Autowired
     private AccountService accountService;
     
+    @GetMapping("/profile/{path}/skill")
+    public String list(Model model, String path) {
+        //Account account = accountRepository.findByPath(path);
+        //model.addAttribute("skills1", skillRepository.findAllSkills(account, PageRequest.of(0, 3, Sort.by("likes").descending())));
+        //model.addAttribute("skills2", skillRepository.findAllSkills(account, PageRequest.of(4, 10, Sort.by("likes").descending())));
+    
+        return "redirect:/profile/" + path;
+    }
+    
+        
     @PostMapping("/profile/{path}/skill")
     public String addSkill(@PathVariable String path, @RequestParam String content) {
         Account a = accountRepository.findByPath(path);

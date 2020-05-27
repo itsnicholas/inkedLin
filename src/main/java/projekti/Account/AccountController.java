@@ -2,11 +2,18 @@ package projekti.Account;
 
 import projekti.Account.Account;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import static java.util.Collections.list;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -73,7 +80,21 @@ public class AccountController {
         model.addAttribute("path", path);
         model.addAttribute("picture", accountRepository.findByPath(path).getPicture());
         model.addAttribute("profileName", accountRepository.findByPath(path).getName());
-        model.addAttribute("skills", accountRepository.findByPath(path).getSkills());
+        
+        List<Skill> skills = accountRepository.findByPath(path).getSkills();
+        Collections.sort(skills);
+        List<Skill> first3ElementsList = skills.stream().limit(3).collect(Collectors.toList());
+        List<Skill> nextElementsList = new ArrayList<>();
+
+        for (int i = 3; i < skills.size(); i++) {
+            if (skills.get(i) != null) {
+                nextElementsList.add(skills.get(i));
+            }
+        }
+
+        model.addAttribute("skills", first3ElementsList);
+        model.addAttribute("skills2", nextElementsList);
+        
         return "profile";
     }
     

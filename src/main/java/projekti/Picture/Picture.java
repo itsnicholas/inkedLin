@@ -27,8 +27,8 @@ import projekti.Account.Account;
 @AllArgsConstructor
 public class Picture extends AbstractPersistable<Long> {
     
-    //@Lob reactivate when not to do with Heroku
-    //@Basic(fetch = FetchType.LAZY)
+    //@Lob //reactivate when not to do with Heroku
+    //@Basic(fetch = FetchType.LAZY)  //reactivate when not to do with Heroku
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] content;
 
