@@ -37,16 +37,6 @@ public class PostController {
     @GetMapping("/post")
     public String profile(Model model) {
         List<Post> posts = postRepository.findAll();
-        //Collections.sort(skills);
-        //List<Skill> first3ElementsList = skills.stream().limit(3).collect(Collectors.toList());
-        //List<Skill> nextElementsList = new ArrayList<>();
-
-        //for (int i = 3; i < skills.size(); i++) {
-        //    if (skills.get(i) != null) {
-        //        nextElementsList.add(skills.get(i));
-        //    }
-        //}
-
         model.addAttribute("posts", posts);
         
         return "post";
@@ -58,7 +48,7 @@ public class PostController {
         Post post = new Post();
         post.setAccount(a);
         post.setPostText(content);
-        post.setTimeCreated(LocalDateTime.MAX);
+        //post.setTimeCreated(LocalDateTime.MAX);
         postRepository.save(post);
         
         return "redirect:/post/";
