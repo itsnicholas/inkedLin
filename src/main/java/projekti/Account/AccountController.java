@@ -81,22 +81,22 @@ public class AccountController {
         model.addAttribute("picture", accountRepository.findByPath(path).getPicture());
         model.addAttribute("profileName", accountRepository.findByPath(path).getName());
         
-        //List<Skill> skills = accountRepository.findByPath(path).getSkills();
-        //Collections.sort(skills);
-        //List<Skill> first3ElementsList = skills.stream().limit(3).collect(Collectors.toList());
-        //List<Skill> nextElementsList = new ArrayList<>();
+        List<Skill> skills = accountRepository.findByPath(path).getSkills();
+        Collections.sort(skills);
+        List<Skill> first3ElementsList = skills.stream().limit(3).collect(Collectors.toList());
+        List<Skill> nextElementsList = new ArrayList<>();
 
-        //for (int i = 3; i < skills.size(); i++) {
-        //    if (skills.get(i) != null) {
-        //        nextElementsList.add(skills.get(i));
-        //    }
-        //}
+        for (int i = 3; i < skills.size(); i++) {
+            if (skills.get(i) != null) {
+                nextElementsList.add(skills.get(i));
+            }
+        }
 
-        //model.addAttribute("skills", first3ElementsList);
-        //model.addAttribute("skills2", nextElementsList);
+        model.addAttribute("skills", first3ElementsList);
+        model.addAttribute("skills2", nextElementsList);
         
-        model.addAttribute("skills", accountRepository.findByPath(path).getSkills());
-        model.addAttribute("skills2", accountRepository.findByPath(path).getSkills());
+        //model.addAttribute("skills", accountRepository.findByPath(path).getSkills());
+        //model.addAttribute("skills2", accountRepository.findByPath(path).getSkills());
         
         return "profile";
     }
