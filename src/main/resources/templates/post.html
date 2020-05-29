@@ -25,9 +25,14 @@ and open the template in the editor.
             <li th:each="post : ${posts}">
                 <span th:text="${post.account.name}">account</span>
                 <br>
-                <span th:text="${post.timeCreated}">time</span>
+                <span th:text="${#temporals.format(post.timeCreated, 'HH:mm (dd.MM.yyyy)')}">time</span>
                 <br>
                 <span th:text="${post.postText}">text</span>
+                <br>
+                <form th:action="@{/post/{id}/like(id=${post.id})}" method="POST">
+                    <input type="hidden" id="postLike" name="postLike" value="postLike"/>
+                    <button type="submit"><span th:text="${#lists.size(post.likes)}">likes</span></button><span> likes</span>
+                </form>
             </li>
     </body>
 </html>

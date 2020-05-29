@@ -54,4 +54,22 @@ public class PostController {
         return "redirect:/post/";
     }
     
+    @PostMapping("/post/{id}/like")
+    public String postLike(@PathVariable Long id) {
+        Account liker = accountService.getUser();
+        Post post = postRepository.getOne(id);
+            
+        if (post.getLikes().contains(liker)) {
+            post.getLikes().remove(liker);
+            postRepository.save(post);
+            
+            return "redirect:/post/";
+        }
+            
+        post.getLikes().add(liker);
+        postRepository.save(post);
+            
+        return "redirect:/post/";
+    }
+    
 }
