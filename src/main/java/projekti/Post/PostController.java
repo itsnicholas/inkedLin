@@ -5,12 +5,10 @@
  */
 package projekti.Post;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import projekti.Account.Account;
 import projekti.Account.AccountRepository;
 import projekti.Account.AccountService;
-import projekti.Skill.Skill;
 
 @Controller
 public class PostController {
@@ -36,8 +33,8 @@ public class PostController {
     
     @GetMapping("/post")
     public String profile(Model model) {
-        List<Post> posts = postRepository.findAll();
-        model.addAttribute("posts", posts);
+        Pageable pageable = PageRequest.of(0, 25, Sort.by("timeCreated").descending());
+        model.addAttribute("posts", postRepository.findAll(pageable));
         
         return "post";
     }

@@ -28,7 +28,7 @@ public class Post extends AbstractPersistable<Long> {
     private Account account;
     
     @NotNull
-    private LocalDateTime timeCreated = LocalDateTime.now();
+    private LocalDateTime timeCreated = LocalDateTime.now();;
     
     @NotEmpty
     @Size(min = 1, max = 500)

@@ -1,21 +1,13 @@
 package projekti.Account;
 
-import projekti.Account.Account;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import static java.util.Collections.list;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -94,9 +86,6 @@ public class AccountController {
 
         model.addAttribute("skills", first3ElementsList);
         model.addAttribute("skills2", nextElementsList);
-        
-        //model.addAttribute("skills", accountRepository.findByPath(path).getSkills());
-        //model.addAttribute("skills2", accountRepository.findByPath(path).getSkills());
         
         return "profile";
     }
