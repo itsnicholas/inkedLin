@@ -47,4 +47,3 @@ public class Skill extends AbstractPersistable<Long> implements Comparable<Skill
         }
     }
 }
-//Miten saa @Column(unique = true) toimimaan?

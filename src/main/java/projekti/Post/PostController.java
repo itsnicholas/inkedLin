@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import projekti.Account.Account;
 import projekti.Account.AccountRepository;
 import projekti.Account.AccountService;
+import projekti.Comment.Comment;
+import projekti.Comment.CommentRepository;
 
 @Controller
 public class PostController {
@@ -29,13 +31,16 @@ public class PostController {
     AccountRepository accountRepository;
     
     @Autowired
+    CommentRepository commentRepository;
+    
+    @Autowired
     AccountService accountService;
     
     @GetMapping("/post")
     public String profile(Model model) {
         Pageable pageable = PageRequest.of(0, 25, Sort.by("timeCreated").descending());
         model.addAttribute("posts", postRepository.findAll(pageable));
-        
+
         return "post";
     }
     
@@ -45,7 +50,6 @@ public class PostController {
         Post post = new Post();
         post.setAccount(a);
         post.setPostText(content);
-        //post.setTimeCreated(LocalDateTime.MAX);
         postRepository.save(post);
         
         return "redirect:/post/";
@@ -69,4 +73,17 @@ public class PostController {
         return "redirect:/post/";
     }
     
+    @PostMapping("/post/{id}/comment")
+    public String addComment(@PathVariable Long id, @RequestParam String content) {
+        Account a = accountService.getUser();
+        Comment comment = new Comment();
+        comment.setAccount(a);
+        comment.setCommentText(content);
+        commentRepository.save(comment);
+        Post post = postRepository.getOne(id);
+        postRepository.getOne(id).getMessageComments().add(comment);
+        postRepository.save(post);
+        
+        return "redirect:/post/";
+    }
 }

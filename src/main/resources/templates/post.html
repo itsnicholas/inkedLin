@@ -22,7 +22,7 @@ and open the template in the editor.
                     </tr>
                 </table>
             </form>
-            <li th:each="post : ${posts}">
+            <div th:each="post : ${posts}">
                 <span th:text="${post.account.name}">account</span>
                 <br>
                 <span th:text="${#temporals.format(post.timeCreated, 'HH:mm (dd.MM.yyyy)')}">time</span>
@@ -33,6 +33,27 @@ and open the template in the editor.
                     <input type="hidden" id="postLike" name="postLike" value="postLike"/>
                     <button type="submit"><span th:text="${#lists.size(post.likes)}">likes</span></button><span> likes</span>
                 </form>
-            </li>
+                
+                <form th:action="@{/post/{id}/comment(id=${post.id})}" method="POST">
+                    <table>
+                        <tr>
+                            <td><input type="text" id="content" name="content" placeholder="Write here. Max 500 symbols!" maxlength="500" required/></td>
+                        </tr>
+                        <tr>   
+                            <td><button type="submit">Add Post</button></td>
+                        </tr>
+                    </table>
+                </form>
+                <div th:each="comment,iter : ${post.messageComments}" th:if="${iter.index < 10}">
+                    <span th:text="${comment.account.name}">account</span>
+                    <br>
+                    <span th:text="${#temporals.format(comment.timeCreated, 'HH:mm (dd.MM.yyyy)')}">time</span>
+                    <br>
+                    <span th:text="${comment.commentText}">text</span>
+                    <br>
+                </div>
+
+                
+            </div>
     </body>
 </html>

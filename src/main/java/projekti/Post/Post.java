@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,6 +18,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import projekti.Account.Account;
+import projekti.Comment.Comment;
 
 
 @Entity
@@ -28,7 +31,7 @@ public class Post extends AbstractPersistable<Long> {
     private Account account;
     
     @NotNull
-    private LocalDateTime timeCreated = LocalDateTime.now();;
+    private LocalDateTime timeCreated = LocalDateTime.now();
     
     @NotEmpty
     @Size(min = 1, max = 500)
@@ -42,5 +45,9 @@ public class Post extends AbstractPersistable<Long> {
         inverseJoinColumns=
             @JoinColumn(name="like_account_id", referencedColumnName="id"))
     private List<Account> likes = new ArrayList<>();
+    
+    @OneToMany
+    @OrderBy("timeCreated DESC")
+    private List<Comment> messageComments = new ArrayList<>();
     
 }
