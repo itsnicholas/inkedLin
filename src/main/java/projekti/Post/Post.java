@@ -44,10 +44,10 @@ public class Post extends AbstractPersistable<Long> {
             @JoinColumn(name="post_id", referencedColumnName="id"),
         inverseJoinColumns=
             @JoinColumn(name="like_account_id", referencedColumnName="id"))
-    private List<Account> likes = new ArrayList<>();
+    private List<Account> likes;
     
     @OneToMany
     @OrderBy("timeCreated DESC")
-    private List<Comment> messageComments = new ArrayList<>();
+    private List<Comment> messageComments;
     
 }

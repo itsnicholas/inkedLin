@@ -11,17 +11,21 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>Users:</div>
-        <ul>
-            <li th:each="account : ${accounts}">
-                <div th:switch="${account.picture}">                  
-                    <img th:case="null" th:src="@{/images/noimage.jpg}" width="50" height="50"/>
-                    <img th:case="*" th:src="@{/picture/{id}(id=${account.picture.id})}" width="50" height="50"/>
-                </div>
-                <div>
-                    <a th:href="@{/profile/{path}(path=${account.path})}" th:text="${account.name}">Account</a>
-                </div>
-            </li>
-        </ul>
+        Users:
+            <div th:each="account : ${accounts}">
+                <div th:if="${user != account}">    
+                    <div th:switch="${account.picture}">
+                        <a th:case="null" th:href="@{/profile/{path}(path=${account.path})}"><img th:src="@{/images/noimage.jpg}" width="50" height="50"/></a>
+                        <a th:case="*" th:href="@{/profile/{path}(path=${account.path})}"><img th:src="@{/picture/{id}(id=${account.picture.id})}" width="50" height="50"/></a>
+                    </div>
+                    <div>
+                        <a th:href="@{/profile/{path}(path=${account.path})}" th:text="${account.name}">Account</a>
+                    </div>
+                        <form th:action="@{/friend/{id}/friendRequest(id=${account.id})}" th:if="${!#lists.contains(account.friends, user)}" method="POST">
+                            <input type="hidden" id="friendRequest" name="friendRequest" value="friendRequest"/>
+                            <button type="submit">Send a friend request</button>
+                        </form>
+                </div>    
+            </div>
     </body>
 </html>

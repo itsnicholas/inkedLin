@@ -34,7 +34,7 @@ public class Skill extends AbstractPersistable<Long> implements Comparable<Skill
             @JoinColumn(name="skill_id", referencedColumnName="id"),
         inverseJoinColumns=
             @JoinColumn(name="like_account_id", referencedColumnName="id"))
-    private List<Account> likes = new ArrayList<>();
+    private List<Account> likes;
 
     @Override
     public int compareTo(Skill skill) {

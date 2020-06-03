@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import projekti.FriendRequest.FriendRequest;
+import projekti.FriendRequest.FriendRequestRepository;
 import projekti.Picture.Picture;
 import projekti.Picture.PictureRepository;
 import projekti.Skill.Skill;
@@ -39,6 +41,9 @@ public class AccountController {
 
     @Autowired
     SkillRepository skillRepository;
+    
+    @Autowired
+    FriendRequestRepository friendRequestRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -72,6 +77,9 @@ public class AccountController {
         model.addAttribute("path", path);
         model.addAttribute("picture", accountRepository.findByPath(path).getPicture());
         model.addAttribute("profileName", accountRepository.findByPath(path).getName());
+        model.addAttribute("friends", accountRepository.findByPath(path).getFriends());
+        model.addAttribute("friendRequests", accountRepository.findByPath(path).getReceivedFriendRequest());
+        model.addAttribute("sentRequests", accountRepository.findByPath(path).getSentFriendRequest());
         
         List<Skill> skills = accountRepository.findByPath(path).getSkills();
         Collections.sort(skills);
@@ -92,7 +100,9 @@ public class AccountController {
     
     @GetMapping("/userlist")
     public String Users(Model model) {
+        model.addAttribute("user", accountService.getUser());
         model.addAttribute("accounts", accountRepository.findAll()); // kaikki tilit
+        
         return "userlist";
     }
     
@@ -148,4 +158,100 @@ public class AccountController {
     public byte[] getContent(@PathVariable Long id) {
         return pictureRepository.getOne(id).getContent();
     }
+    
+    @PostMapping("/friend/{id}/friendRequest")
+    public String friendRequest(@PathVariable Long id) {
+        Account requester = accountService.getUser();
+        Account accepter = accountRepository.getOne(id);
+        FriendRequest friendRequest = new FriendRequest();
+        friendRequest.setRequester(requester);
+        friendRequest.setAccepter(accepter);
+        FriendRequest friendRequest2 = new FriendRequest();
+        friendRequest2.setRequester(accepter);
+        friendRequest2.setAccepter(requester);
+        friendRequestRepository.save(friendRequest);
+        friendRequestRepository.save(friendRequest2);
+        
+        if (!requester.getSentFriendRequest().contains(friendRequest)) {
+            if (!requester.getReceivedFriendRequest().contains(friendRequest2)) {
+                requester.getSentFriendRequest().add(friendRequest);
+                accepter.getReceivedFriendRequest().add(friendRequest);
+                accountRepository.save(requester);
+                accountRepository.save(accepter);
+            }
+        }
+
+        return "redirect:/userlist/";
+    }
+    
+    @PostMapping("/profile/{path}/friend/{id}/add")
+    public String friendAdd(@PathVariable String path, @PathVariable Long id) {
+        Account accepter = accountRepository.findByPath(path);
+        Account requester = friendRequestRepository.getOne(id).getRequester();
+        FriendRequest friendRequest = new FriendRequest();
+        friendRequest.setRequester(requester);
+        friendRequest.setAccepter(accepter);
+
+        if (requester.getSentFriendRequest().contains(friendRequest)) {
+                requester.getSentFriendRequest().remove(friendRequest);
+                accountRepository.save(requester);
+        }
+        
+        if (accepter.getReceivedFriendRequest().contains(friendRequest)) {
+                accepter.getReceivedFriendRequest().remove(friendRequest);
+                accountRepository.save(accepter);
+        }
+        
+        if (accepter.getFriends().contains(requester)) {  
+            return "redirect:/profile/" + path;
+        }
+        
+        accepter.getFriends().add(requester);
+        requester.getFriends().add(accepter);
+        accountRepository.save(accepter);
+        accountRepository.save(requester);
+        
+        return "redirect:/profile/" + path;
+    }
+    
+    @PostMapping("/profile/{path}/friend/{id}/notAdd")
+    public String friendNotAdd(@PathVariable String path, @PathVariable Long id) {
+        Account accepter = accountRepository.findByPath(path);
+        Account requester = friendRequestRepository.getOne(id).getRequester();
+        FriendRequest friendRequest = new FriendRequest();
+        friendRequest.setRequester(requester);
+        friendRequest.setAccepter(accepter);
+        if (requester.getSentFriendRequest().contains(friendRequest)) {
+            if (accepter.getReceivedFriendRequest().contains(friendRequest)) {
+                requester.getSentFriendRequest().remove(friendRequest);
+                accepter.getReceivedFriendRequest().remove(friendRequest);
+                accountRepository.save(requester);
+                accountRepository.save(accepter);
+            }
+        }
+        
+        return "redirect:/profile/" + path;
+    }
+    
+    @PostMapping("/profile/{path}/friend/{id}/delete")
+    public String friendDelete(@PathVariable String path, @PathVariable Long id) {
+        Account current = accountRepository.findByPath(path);
+        
+        List<Account> friendList = current.getFriends();
+                
+        for (int i = 0; i < friendList.size(); i++) {
+            if (friendList.get(i).getId() == id) {
+                Account remove = friendList.get(i);
+                friendList.remove(remove);
+                remove.getFriends().remove(current);
+                accountRepository.save(remove);
+            }
+        }
+        
+        current.setFriends(friendList);       
+        accountRepository.save(current);
+        
+        return "redirect:/profile/" + path;
+    }
+    
 }

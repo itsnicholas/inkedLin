@@ -28,6 +28,44 @@
                 </form>
             </div>
         </div>
+            <div th:if="${viewedAccount == account}"> 
+                <div th:if="${friendRequests != null}">
+                    <span th:text="${profileName}"></span> friend request:
+                    <div th:each="friendRequest : ${friendRequests}">
+                        <div th:switch="${friendRequest.requester.picture}">                  
+                            <a th:case="null" th:href="@{/profile/{path}(path=${friendRequest.requester.path})}"><img th:src="@{/images/noimage.jpg}" width="50" height="50"/></a>
+                            <a th:case="*" th:href="@{/profile/{path}(path=${friendRequest.requester.path})}"><img th:src="@{/picture/{id}(id=${friendRequest.requester.picture.id})}" width="50" height="50"/></a>
+                        </div>
+                        <div>
+                            <a th:href="@{/profile/{path}(path=${friendRequest.requester.path})}" th:text="${friendRequest.requester.name}">Account</a>
+                        </div>
+                        <form th:action="@{/profile/{path}/friend/{id}/add(path=${friendRequest.accepter.path}, id=${friendRequest.id})}" method="POST">
+                            <input type="hidden" id="friendAdd" name="friendAdd" value="friendAdd"/>
+                            <button type="submit">Add</button>
+                        </form>
+                        <form th:action="@{/profile/{path}/friend/{id}/notAdd(path=${friendRequest.accepter.path}, id=${friendRequest.id})}" method="POST">
+                            <input type="hidden" id="friendNotAdd" name="friendNotAdd" value="friendNotAdd"/>
+                            <button type="submit">Remove</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <span th:text="${profileName}"></span> friends:
+            <div th:each="friend : ${friends}">
+                <div th:switch="${friend.picture}">                  
+                    <a th:case="null" th:href="@{/profile/{path}(path=${friend.path})}"><img th:src="@{/images/noimage.jpg}" width="50" height="50"/></a>
+                    <a th:case="*" th:href="@{/profile/{path}(path=${friend.path})}"><img th:src="@{/picture/{id}(id=${friend.picture.id})}" width="50" height="50"/></a>
+                </div>
+                <div>
+                    <a th:href="@{/profile/{path}(path=${friend.path})}" th:text="${friend.name}">Account</a>
+                </div>
+                <div th:if="${viewedAccount == account}">
+                    <form th:action="@{/profile/{path}/friend/{id}/delete(path=${path}, id=${friend.id})}" method="POST">
+                        <input type="hidden" id="friendDelete" name="friendDelete" value="friendDelete"/>
+                        <button type="submit">Undo friendship</button>
+                    </form>
+                </div>
+            </div>
         <div th:if="${viewedAccount == account}"> 
             <form th:action="@{/profile/{path}/skill(path=${path})}" method="POST">
                 <table>
