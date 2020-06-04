@@ -101,7 +101,7 @@ public class AccountController {
     @GetMapping("/userlist")
     public String Users(Model model) {
         model.addAttribute("user", accountService.getUser());
-        model.addAttribute("accounts", accountRepository.findAll()); // kaikki tilit
+        model.addAttribute("accounts", accountRepository.findAll());
         
         return "userlist";
     }

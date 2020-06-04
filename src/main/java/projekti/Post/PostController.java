@@ -40,6 +40,7 @@ public class PostController {
     public String profile(Model model) {
         Pageable pageable = PageRequest.of(0, 25, Sort.by("timeCreated").descending());
         model.addAttribute("posts", postRepository.findAll(pageable));
+        model.addAttribute("user", accountService.getUser());
 
         return "post";
     }
