@@ -23,7 +23,7 @@ and open the template in the editor.
                 </table>
             </form>
             <div th:each="post : ${posts}">
-                <div th:if="${#lists.contains(post.account.friends, user) OR post.account == user}">
+                
                     <span th:text="${post.account.name}">account</span>
                     <br>
                     <span th:text="${#temporals.format(post.timeCreated, 'HH:mm (dd.MM.yyyy)')}">time</span>

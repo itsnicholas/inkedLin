@@ -24,7 +24,7 @@ import projekti.Comment.Comment;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post extends AbstractPersistable<Long> {
+public class Post extends AbstractPersistable<Long> implements Comparable<Post>{
     
     @ManyToOne
     private Account account;
@@ -48,5 +48,16 @@ public class Post extends AbstractPersistable<Long> {
     @OneToMany
     @OrderBy("timeCreated DESC")
     private List<Comment> messageComments;
+    
+    @Override
+    public int compareTo(Post post) {
+        if (this.getTimeCreated().isBefore(post.getTimeCreated())) {
+            return 1;
+        } else if (this.getTimeCreated().isAfter(post.getTimeCreated())) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
     
 }
