@@ -11,12 +11,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -252,6 +254,21 @@ public class AccountController {
         accountRepository.save(current);
         
         return "redirect:/profile/" + path;
+    }
+    
+    @RequestMapping(value = "/search", method=RequestMethod.POST)
+    public String accountSearch(@RequestParam("name") String name, ModelMap modelMap) {
+            List<Account> foundAccounts = accountRepository.findByName(name);
+            modelMap.addAttribute("accounts", foundAccounts);
+
+            return "userlist";
+    }
+    
+    @RequestMapping(value = "/all", method=RequestMethod.POST)
+    public String accountAll(ModelMap modelMap) {
+            modelMap.addAttribute("accounts", accountRepository.findAll());
+
+            return "userlist";
     }
     
 }

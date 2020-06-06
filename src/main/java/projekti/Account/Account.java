@@ -65,4 +65,6 @@ public class Account extends AbstractPersistable<Long> {
     )
     private List<Account> friends;
     
+    
+    
 }
