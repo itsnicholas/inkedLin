@@ -72,20 +72,20 @@
     <table>
         <tr>
             <td>Name: </td>
-            <td><input type="text" th:field="*{name}" minlength="4" maxlength="16"/></td>
+            <td><input type="text" th:field="*{name}" id="name" minlength="4" maxlength="16"/></td>
         </tr>
         <tr>
             <td>Username: </td>
-            <td><input type="text" th:field="*{username}" minlength="4" maxlength="16"/></td>
+            <td><input type="text" th:field="*{username}" id="username" minlength="4" maxlength="16"/></td>
             <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error.</td>
         </tr>
         <tr>
             <td>Password: </td>
-            <td><input type="text" th:field="*{password}" minlength="4" maxlength="16"/></td>
+            <td><input type="text" th:field="*{password}" id="password" minlength="4" maxlength="16"/></td>
         </tr>
         <tr>
             <td>Path: </td>
-            <td><input type="text" th:field="*{path}" minlength="4" maxlength="16"/></td>
+            <td><input type="text" th:field="*{path}" id="path" minlength="4" maxlength="16"/></td>
             <td th:if="${#fields.hasErrors('path')}" th:errors="*{path}">Path error.</td>
         </tr>
         <tr>

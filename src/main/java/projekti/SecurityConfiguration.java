@@ -32,9 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         "/scripts/**",
         };
         
-        // poistetaan csrf-tarkistus käytöstä h2-konsolin vuoksi
         http.csrf().disable();
-        // sallitaan framejen käyttö
         http.headers().frameOptions().sameOrigin();
 
         http.authorizeRequests()
@@ -51,7 +49,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .logout()
                 .logoutSuccessUrl("/login?logout")
                 .permitAll();
-        
         
     }
 
