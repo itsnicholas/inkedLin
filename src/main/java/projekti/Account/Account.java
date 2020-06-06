@@ -1,7 +1,6 @@
 package projekti.Account;
 
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -64,7 +63,5 @@ public class Account extends AbstractPersistable<Long> {
             @JoinColumn(name="friend_id", referencedColumnName="id")
     )
     private List<Account> friends;
-    
-    
-    
+ 
 }

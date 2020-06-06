@@ -102,8 +102,11 @@ public class AccountController {
     
     @GetMapping("/userlist")
     public String Users(Model model) {
-        model.addAttribute("user", accountService.getUser());
-        model.addAttribute("accounts", accountRepository.findAll());
+        Account a = accountService.getUser();
+        model.addAttribute("user", a);
+        List<Account> allexpectUser = accountRepository.findAllByOrderByNameAsc();
+        allexpectUser.remove(a);
+        model.addAttribute("accounts", allexpectUser);
         
         return "userlist";
     }
@@ -223,6 +226,7 @@ public class AccountController {
         FriendRequest friendRequest = new FriendRequest();
         friendRequest.setRequester(requester);
         friendRequest.setAccepter(accepter);
+        
         if (requester.getSentFriendRequest().contains(friendRequest)) {
             if (accepter.getReceivedFriendRequest().contains(friendRequest)) {
                 requester.getSentFriendRequest().remove(friendRequest);
@@ -256,19 +260,19 @@ public class AccountController {
         return "redirect:/profile/" + path;
     }
     
-    @RequestMapping(value = "/search", method=RequestMethod.POST)
-    public String accountSearch(@RequestParam("name") String name, ModelMap modelMap) {
-            List<Account> foundAccounts = accountRepository.findByName(name);
-            modelMap.addAttribute("accounts", foundAccounts);
+    @PostMapping("/search")
+    public String accountSearch(Model model, @RequestParam String name) {
 
-            return "userlist";
+        List<Account> foundAccounts = accountRepository.findByName(name);
+        model.addAttribute("user", accountService.getUser());
+        model.addAttribute("accounts", foundAccounts);
+
+        return "userlist";
     }
     
     @RequestMapping(value = "/all", method=RequestMethod.POST)
-    public String accountAll(ModelMap modelMap) {
-            modelMap.addAttribute("accounts", accountRepository.findAll());
-
-            return "userlist";
+    public String accountAll() {
+            return "redirect:/userlist";
     }
     
 }

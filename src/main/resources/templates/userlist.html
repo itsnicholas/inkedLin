@@ -24,20 +24,18 @@ and open the template in the editor.
             </div>
         </form>
         Users:
-            <div th:each="account : ${accounts}">
-                <div th:if="${user != account}">    
-                    <div th:switch="${account.picture}">
-                        <a th:case="null" th:href="@{/profile/{path}(path=${account.path})}"><img th:src="@{/images/noimage.jpg}" width="50" height="50"/></a>
-                        <a th:case="*" th:href="@{/profile/{path}(path=${account.path})}"><img th:src="@{/picture/{id}(id=${account.picture.id})}" width="50" height="50"/></a>
-                    </div>
-                    <div>
-                        <a th:href="@{/profile/{path}(path=${account.path})}" th:text="${account.name}">Account</a>
-                    </div>
-                        <form th:action="@{/friend/{id}/friendRequest(id=${account.id})}" th:if="${!#lists.contains(account.friends, user)}" method="POST">
-                            <input type="hidden" id="friendRequest" name="friendRequest" value="friendRequest"/>
-                            <button type="submit">Send a friend request</button>
-                        </form>
-                </div>    
+        <div th:each="account : ${accounts}">
+            <div th:switch="${account.picture}">
+                <a th:case="null" th:href="@{/profile/{path}(path=${account.path})}"><img th:src="@{/images/noimage.jpg}" width="50" height="50"/></a>
+                <a th:case="*" th:href="@{/profile/{path}(path=${account.path})}"><img th:src="@{/picture/{id}(id=${account.picture.id})}" width="50" height="50"/></a>
             </div>
+            <div>
+                <a th:href="@{/profile/{path}(path=${account.path})}" th:text="${account.name}">Account</a>
+            </div>
+            <form th:action="@{/friend/{id}/friendRequest(id=${account.id})}" th:if="${!#lists.contains(user.friends, account)}" method="POST">
+                <input type="hidden" id="friendRequest" name="friendRequest" value="friendRequest"/>
+                <button type="submit">Send a friend request</button>
+            </form>
+        </div>    
     </body>
 </html>
