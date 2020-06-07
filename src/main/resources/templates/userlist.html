@@ -24,6 +24,7 @@ and open the template in the editor.
             </div>
         </form>
         Users:
+       
         <div th:each="account : ${accounts}">
             <div th:switch="${account.picture}">
                 <a th:case="null" th:href="@{/profile/{path}(path=${account.path})}"><img th:src="@{/images/noimage.jpg}" width="50" height="50"/></a>

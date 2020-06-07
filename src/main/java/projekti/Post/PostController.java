@@ -69,7 +69,7 @@ public class PostController {
         post.setPostText(content);
         postRepository.save(post);
         
-        return "redirect:/post/";
+        return "redirect:/post";
     }
     
     @PostMapping("/post/{id}/like")
@@ -81,13 +81,13 @@ public class PostController {
             post.getLikes().remove(liker);
             postRepository.save(post);
             
-            return "redirect:/post/";
+            return "redirect:/post";
         }
             
         post.getLikes().add(liker);
         postRepository.save(post);
             
-        return "redirect:/post/";
+        return "redirect:/post";
     }
     
     @PostMapping("/post/{id}/comment")
@@ -101,6 +101,6 @@ public class PostController {
         postRepository.getOne(id).getMessageComments().add(comment);
         postRepository.save(post);
         
-        return "redirect:/post/";
+        return "redirect:/post";
     }
 }

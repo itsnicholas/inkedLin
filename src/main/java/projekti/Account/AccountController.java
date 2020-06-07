@@ -104,9 +104,9 @@ public class AccountController {
     public String Users(Model model) {
         Account a = accountService.getUser();
         model.addAttribute("user", a);
-        List<Account> allexpectUser = accountRepository.findAllByOrderByNameAsc();
-        allexpectUser.remove(a);
-        model.addAttribute("accounts", allexpectUser);
+        List<Account> allexceptUser = accountRepository.findAllByOrderByNameAsc();
+        allexceptUser.remove(a);
+        model.addAttribute("accounts", allexceptUser);
         
         return "userlist";
     }
@@ -186,7 +186,7 @@ public class AccountController {
             }
         }
 
-        return "redirect:/userlist/";
+        return "redirect:/userlist";
     }
     
     @PostMapping("/profile/{path}/friend/{id}/add")
@@ -270,7 +270,7 @@ public class AccountController {
         return "userlist";
     }
     
-    @RequestMapping(value = "/all", method=RequestMethod.POST)
+    @PostMapping("/all")
     public String accountAll() {
             return "redirect:/userlist";
     }
