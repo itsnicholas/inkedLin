@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,20 +38,19 @@ public class PostController {
         List<Account> aFriendsAndA = a.getFriends();
         aFriendsAndA.add(a);
         List<Post> allPosts = postRepository.findAll();
-        List<Post> allOfRiendsPosts = new ArrayList<>();
+        List<Post> allOfFriendsPosts = new ArrayList<>();
         
         for (int i = 0; i < allPosts.size(); i++) {
             for (int j = 0; j < aFriendsAndA.size(); j++) {
                 if (allPosts.get(i).getAccount() == aFriendsAndA.get(j)) {
-                    allOfRiendsPosts.add(allPosts.get(i));
+                    allOfFriendsPosts.add(allPosts.get(i));
                 }
             }
         }
         
-        Collections.sort(allOfRiendsPosts);
-        List<Post> first25ElementsList = allOfRiendsPosts.stream().limit(25).collect(Collectors.toList());
+        Collections.sort(allOfFriendsPosts);
+        List<Post> first25ElementsList = allOfFriendsPosts.stream().limit(25).collect(Collectors.toList());
         
-        //Pageable pageable = PageRequest.of(0, 25, Sort.by("timeCreated").descending());
         model.addAttribute("posts", first25ElementsList);
         model.addAttribute("user", accountService.getUser());
 

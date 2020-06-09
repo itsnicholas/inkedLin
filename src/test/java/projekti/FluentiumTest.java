@@ -32,7 +32,7 @@ public class FluentiumTest extends org.fluentlenium.adapter.junit.FluentTest {
         find("#path").fill().with("98765");
         find("form").first().submit();
         assertTrue(accountRepository.findAll().size() == amountOfUsers + 1);
-        assertTrue(pageSource().contains("Log in!"));
+        assertTrue(pageSource().contains("Networking for tattoo artists."));
     
     }
     
@@ -47,7 +47,7 @@ public class FluentiumTest extends org.fluentlenium.adapter.junit.FluentTest {
         find("form").first().submit();
         assertTrue(accountRepository.findAll().size() == amountOfUsers + 1);
         
-        assertTrue(pageSource().contains("Log in!"));
+        assertTrue(pageSource().contains("Networking for tattoo artists."));
         find("#username").fill().with("4321");
         find("#password").fill().with("5678");
         find("form").first().submit();
