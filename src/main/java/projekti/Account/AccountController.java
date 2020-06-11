@@ -152,8 +152,6 @@ public class AccountController {
     @PostMapping("/profile/{path}/picture/delete")
     public String deletePicture(@PathVariable String path) {
             Account a = accountRepository.findByPath(path);
-            //Picture pic = accountRepository.findByPath(path).getPicture(); Tarvitaanko tätä toimivassa muodossa?
-            //pictureRepository.delete(pic); Tarvitaanko tätä toimivassa muodossa?
             a.setPicture(null);
             accountRepository.save(a);
         return "redirect:/profile/" + path;

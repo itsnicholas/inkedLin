@@ -65,7 +65,7 @@
             <div class="mt-1 mb-4">
               <form th:action="@{/profile/{path}/picture(path=${path})}" method="POST" enctype="multipart/form-data">
                 <input type="file" name="file"/>
-                <input class="btn btn-xs btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" value="Add picture"/>
+                <input class="btn btn-xs btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" value="Add (jpg.) picture"/>
               </form>
               <form th:if="${viewedAccount.picture != null}" th:action="@{/profile/{path}/picture/delete(path=${path})}" method="POST">
                 <input class="btn btn-xs btn-outline-primary py-0" style="font-size: 0.8em;" type="submit" value="Delete picture"/>
