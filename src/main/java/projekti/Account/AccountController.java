@@ -102,6 +102,7 @@ public class AccountController {
     
     @GetMapping("/userlist")
     public String Users(Model model) {
+        model.addAttribute("user", accountService.getUser());
         Account a = accountService.getUser();
         model.addAttribute("user", a);
         List<Account> allexceptUser = accountRepository.findAllByOrderByNameAsc();

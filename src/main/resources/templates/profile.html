@@ -110,13 +110,13 @@
         <div class="card-header">
           <div class="d-flex flex-column flex-md-row align-items-center">
             <div class="mr-sm-auto">
-              <h4 class="my-0 font-weight-normal">Skills</h4>
+              <h4 class="my-0 font-weight-normal">Tattoo skills</h4>
             </div>
             <div th:if="${viewedAccount == account}">
               <form class="form-inline" th:action="@{/profile/{path}/skill(path=${path})}" method="POST">
                 <div class="form-group">
-                  <input class="form-control input-sm" type="text" placeholder="Skill" id="content" name="content" maxlength="50" required/>
-                  <button class="btn btn-outline-primary" type="submit">Add skill</button>
+                  <input class="form-control form-control-sm" type="text" placeholder="Skill" id="content" name="content" maxlength="50" required/>
+                  <button class="btn btn-sm btn-outline-primary" type="submit">Add skill</button>
                 </div>
               </form>
             </div>
