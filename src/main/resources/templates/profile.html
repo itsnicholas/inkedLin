@@ -128,9 +128,9 @@
             <ol class="mt-3 mb-4">  
              <li th:each="skill : ${skills}">
               <span th:text="${skill.name}">skill</span>
-              <form th:action="@{/profile/{path}/skill/{id}/like(path=${path}, id=${skill.id})}" method="POST">
+              <form class="form-inline" th:action="@{/profile/{path}/skill/{id}/like(path=${path}, id=${skill.id})}" method="POST">
                   <input type="hidden" id="skillLike" name="skillLike" value="skillLike"/>
-                  <button class="btn btn-xs btn-outline-primary py-0" style="font-size: 0.8em;" type="submit"><span th:text="${#lists.size(skill.likes)}">likes</span></button><span> likes</span>
+                  <button class="btn btn-xs btn-outline-primary py-0" style="font-size: 0.8em;" type="submit"><span th:text="${#lists.size(skill.likes)}">likes</span></button><span>&nbsp;likes</span>
               </form>
              </li>
             </ol>
@@ -140,9 +140,9 @@
            <ul class="list-unstyled mt-3 mb-4">
             <li th:each="skill : ${skills2}">
               <span th:text="${skill.name}">skill</span>
-              <form th:action="@{/profile/{path}/skill/{id}/like(path=${path}, id=${skill.id})}" method="POST">
+              <form class="form-inline" th:action="@{/profile/{path}/skill/{id}/like(path=${path}, id=${skill.id})}" method="POST">
                 <input type="hidden" id="skillLike" name="skillLike" value="skillLike"/>
-                <button class="btn btn-xs btn-outline-primary py-0" style="font-size: 0.8em;" type="submit"><span th:text="${#lists.size(skill.likes)}">likes</span></button><span> likes</span>
+                <button class="btn btn-xs btn-outline-primary py-0" style="font-size: 0.8em;" type="submit"><span th:text="${#lists.size(skill.likes)}">likes</span></button><span>&nbsp;likes</span>
               </form>
             </li>
           </ul>

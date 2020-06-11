@@ -1,59 +1,118 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>Post</div>
-            <form th:action="@{/post}" method="POST">
-                <table>
-                    <tr>
-                        <td><input type="text" id="content" name="content" placeholder="Write here. Max 500 symbols!" maxlength="500" required/></td>
-                    </tr>
-                    <tr>   
-                        <td><button type="submit">Add Post</button></td>
-                    </tr>
-                </table>
-            </form>
-            <div th:each="post : ${posts}">
-                
-                    <span th:text="${post.account.name}">account</span>
-                    <br>
-                    <span th:text="${#temporals.format(post.timeCreated, 'HH:mm (dd.MM.yyyy)')}">time</span>
-                    <br>
-                    <span th:text="${post.postText}">text</span>
-                    <br>
-                    <form th:action="@{/post/{id}/like(id=${post.id})}" method="POST">
-                        <input type="hidden" id="postLike" name="postLike" value="postLike"/>
-                        <button type="submit"><span th:text="${#lists.size(post.likes)}">likes</span></button><span> likes</span>
-                    </form>
-                
-                    <form th:action="@{/post/{id}/comment(id=${post.id})}" method="POST">
-                        <table>
-                            <tr>
-                                <td><input type="text" id="content" name="content" placeholder="Write here. Max 500 symbols!" maxlength="500" required/></td>
-                            </tr>
-                            <tr>   
-                                <td><button type="submit">Add Post</button></td>
-                            </tr>
-                        </table>
-                    </form>
-                    <div th:each="comment,iter : ${post.messageComments}" th:if="${iter.index < 10}">
-                        <span th:text="${comment.account.name}">account</span>
-                        <br>
-                        <span th:text="${#temporals.format(comment.timeCreated, 'HH:mm (dd.MM.yyyy)')}">time</span>
-                        <br>
-                        <span th:text="${comment.commentText}">text</span>
-                        <br>
-                    </div>
-                
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="inkedLin">
+    <title>inkedLin</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/pricing/">
+
+    <!-- Bootstrap core CSS -->
+<link href="https://getbootstrap.com/docs/4.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+
+<meta name="msapplication-config" content="/docs/4.5/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#563d7c">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/css/profile.css" rel="stylesheet">
+  </head>
+  <body>
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm" style="background-color: #f5f5f5;">
+    <img class="mr-md-auto" src="/images/inkedlin.jpg" alt="inkedLin">
+    <nav class="my-2 my-md-0 mr-md-3">
+        <text style="color:#007dff">User: [[${#httpServletRequest.remoteUser}]]</text>
+        <a class="p-2 text-dark" th:href="@{/profile/{path}(path=${user.path})}">Profile</a>
+        <a class="p-2 text-dark" th:href="@{/post}">Posts</a>
+        <a class="p-2 text-dark" th:href="@{/userlist}">Users</a>
+    </nav>
+    <form th:action="@{/logout}" method="post">
+        <input class="btn btn-outline-primary" type="submit" value="Log out"/>
+    </form>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <div class="d-flex flex-column flex-md-row align-items-center">
+            <div class="mr-sm-auto">
+              <h4 class="my-0 font-weight-normal">Posts</h4>
             </div>
-    </body>
+             <div class="form-row align-items-right">
+              <form class="form-inline" th:action="@{/post}" method="POST">
+                <input class="form-control form-control-sm p-2" type="text" id="content" name="content" placeholder="What's on your mind?" maxlength="500" required>
+                <input class="btn btn-sm btn-outline-primary" type="submit" value="Add Post">
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+            <div th:each="post : ${posts}">
+              <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <u>
+                    <span th:text="${post.account.name}">account</span>
+                    <span th:text="${#temporals.format(post.timeCreated, 'HH:mm (dd.MM.yyyy)')}">time</span>
+                    </u>
+                </div>
+                <div class="card-body">
+                    <span th:text="${post.postText}">text</span>
+                </div>
+                  <div class="card-body">
+                    <div class="d-flex flex-column flex-md-row align-items-center">
+                      <div class="mr-sm-auto">
+                        <form class="form-inline" th:action="@{/post/{id}/like(id=${post.id})}" method="POST">
+                          <input type="hidden" id="postLike" name="postLike" value="postLike"/>
+                          <button class="btn btn-sm btn-outline-primary" type="submit"><span th:text="${#lists.size(post.likes)}"> likes</span></button><span>&nbsp;likes</span>
+                        </form>
+                      </div>
+                      <div class="form-row align-items-right">  
+                        <form class="form-inline" th:action="@{/post/{id}/comment(id=${post.id})}" method="POST">
+                          <input class="form-control form-control-sm" type="text" id="content" name="content" placeholder="Comment" maxlength="500" required/>
+                          <button class="btn btn-sm btn-outline-primary" type="submit">Add</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                    <div class="card mb-4 shadow-sm">
+                      <div th:each="comment,iter : ${post.messageComments}" th:if="${iter.index < 10}">
+                        <div class="card-body">
+                          <u>
+                          <span th:text="${comment.account.name}">account</span>
+                          <span th:text="${#temporals.format(comment.timeCreated, 'HH:mm (dd.MM.yyyy)')}">time</span>
+                          </u>
+                        </div>
+                        <div class="card-body">
+                          <span th:text="${comment.commentText}">text</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
