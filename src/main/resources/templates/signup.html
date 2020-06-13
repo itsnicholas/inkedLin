@@ -39,7 +39,7 @@
         <label for="password" class="sr-only">Password</label>
         <input type="text" class="form-control" th:field="*{password}" id="password" minlength="4" maxlength="16" placeholder="Password" required>
         <label for="path" class="sr-only">Path</label>
-        <input type="text" class="form-control" th:field="*{path}" id="path" minlength="4" maxlength="16" placeholder="Profile path e.g. com/myprofile" required>
+        <input type="text" class="form-control" th:field="*{path}" id="path" minlength="4" maxlength="16" placeholder="Profile path (only alphanumeric characters)" required>
         <div th:if="${#fields.hasErrors('path')}" th:errors="*{path}">Path error.</div>
         <br>
         <button class="btn btn-lg btn-primary btn-block mb-4" type="submit">Sign up</button>

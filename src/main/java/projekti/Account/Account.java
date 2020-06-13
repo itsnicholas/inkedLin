@@ -9,6 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,6 +38,7 @@ public class Account extends AbstractPersistable<Long> {
     @Size(min = 4)
     private String password;
     
+    @Pattern(regexp = "[\\w]*")
     @NotEmpty
     @Size(min = 4, max = 16)
     @Column(unique = true)
