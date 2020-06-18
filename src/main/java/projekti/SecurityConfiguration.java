@@ -30,6 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**", "/h2-console").permitAll()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/images/**").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

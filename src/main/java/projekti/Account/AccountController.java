@@ -261,10 +261,17 @@ public class AccountController {
     
     @PostMapping("/search")
     public String accountSearch(Model model, @RequestParam String name) {
-
-        List<Account> foundAccounts = accountRepository.findByName(name);
+        Account user =  accountService.getUser();
+        List<Account> allAccounts = accountRepository.findAll();
+        List<Account> suitableAccounts = new ArrayList<>();
+        for (int i = 0; i < allAccounts.size(); i++) {
+            if (allAccounts.get(i).getName().toLowerCase().contains(name.toLowerCase()) 
+                    && allAccounts.get(i) != user) {
+                suitableAccounts.add(allAccounts.get(i));
+            }
+        }
         model.addAttribute("user", accountService.getUser());
-        model.addAttribute("accounts", foundAccounts);
+        model.addAttribute("accounts", suitableAccounts);
 
         return "userlist";
     }
